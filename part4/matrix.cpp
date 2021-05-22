@@ -6,6 +6,7 @@
 #include"nlohmann/json.hpp"
 #include<string>
 #include<type_traits>
+#include<thread>
 using namespace std;
 using json = nlohmann::json;
 template<typename T>
@@ -78,23 +79,26 @@ public:
      }
      else{
         matrix result(rows,other.cols);
-        for (int r = 0; r < rows; r++)
-        {
-            for (int c = 0; c < other.cols; c++)
-            {
-                for (int k = 0; k < cols; k++)
+        auto calculate =[&](int begin,int end){
+            for (int r = 0; r < rows; r++)
+            {   
+                for (int c =begin; c < end; c++)
                 {
+                    for (int k = 0; k < cols; k++)
+                    {
                     result.data[r][c]+=data[r][k]*other.data[k][c];
+                    }
                 }
                 
             }
             
-        }
-        
+        };
+        thread c_uphalf (calculate,0,other.cols/2);
+        thread c_downhalf (calculate,other.cols/2,cols);
+        c_uphalf.join();
+        c_downhalf.join();
         return result;
      }
-     
-        
     }
     int getrows()const{
         return rows;
@@ -308,7 +312,55 @@ matrix<T> readmatrix(const string& filepath,int rows,int cols){
         }
         
     }
-int main(int argc,char* argv[])
+int main() {
+    // 测试 1：2×3 乘 3×5，验证多行、奇数列
+    matrix<float> a(2, 3);
+    matrix<float> b(3, 5);
+
+    float aValues[2][3] = {
+        {1, 2, 3},
+        {4, 5, 6}
+    };
+
+    float bValues[3][5] = {
+        {1, 2, 3, 4, 5},
+        {2, 3, 4, 5, 6},
+        {3, 4, 5, 6, 7}
+    };
+
+    for (int r = 0; r < 2; r++)
+        for (int c = 0; c < 3; c++)
+            a.set(r, c, aValues[r][c]);
+
+    for (int r = 0; r < 3; r++)
+        for (int c = 0; c < 5; c++)
+            b.set(r, c, bValues[r][c]);
+
+    cout << "Test 1:\n";
+    (a * b).print();
+
+    // 测试 2：1×3 乘 3×5，验证一行输入
+    matrix<float> x(1, 3);
+    x.set(0, 0, 1);
+    x.set(0, 1, 2);
+    x.set(0, 2, 3);
+
+    cout << "Test 2:\n";
+    (x * b).print();
+
+    // 测试 3：结果只有一列，一个线程的任务范围为空
+    matrix<double> p(1, 3);
+    matrix<double> q(3, 1);
+
+    for (int k = 0; k < 3; k++) {
+        p.set(0, k, k + 1);
+        q.set(k, 0, k + 4);
+    }
+
+    cout << "Test 3:\n";
+    (p * q).print();
+}
+/*int main(int argc,char* argv[])
 {   string folder="../mnist-fc/";
     if (argc>1 && string(argv[1])=="plus")
     {
@@ -339,4 +391,4 @@ cout << "Sum of probabilities：" << probabilitySum << endl;
     }
     delete f;
     return 0;
-}
+}*/

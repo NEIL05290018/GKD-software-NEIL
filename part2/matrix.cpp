@@ -176,10 +176,8 @@ public:
 };
 matrix readmatrix(const string& filepath,int rows,int cols){
         ifstream file(filepath,ios::binary);
-        if (file.is_open())
+        if (!file.is_open())
         {
-        }
-        else{
             throw runtime_error("文件打开失败");
         }
         matrix x(rows,cols);
@@ -209,7 +207,7 @@ int main()
         {
             throw runtime_error("JSON文件打开失败");
         }
-            cout<<"文件打开成功"<<endl;
+            cout<<"JSON文件打开成功"<<endl;
         json metadata;
         metafile>>metadata;
         int weight1rows=metadata["fc1.weight"][0].get<int>();
