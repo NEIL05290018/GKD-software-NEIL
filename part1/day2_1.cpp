@@ -150,25 +150,61 @@ public:
         return result;   
     }
 };
-int main()
-{
-    matrix a(1, 3);
-    a.set(0, 0, 1001.0f);
-    a.set(0, 1, 1002.0f);
-    a.set(0, 2, 1003.0f);
+class model{
+private:
+    matrix weight1;
+    matrix bias1;
+    matrix weight2;
+    matrix bias2;
+public:
+    model(const matrix& w1,const matrix& b1,const matrix& w2,const matrix& b2)
+    :weight1(w1),bias1(b1),weight2(w2),bias2(b2){
 
-    matrix result = a.softmax();
-
-    cout << "SoftMax结果：" << endl;
-    result.print();
-
-    float sum = 0.0f;
-    for (int c = 0; c < result.getcols(); c++)
-    {
-        sum += result.get(0, c);
+    }
+    matrix forward(const matrix& x)const{
+        /*return (((x*weight1+bias1).relu())*weight2+bias2).softmax();*/
+        matrix layer1=x*weight1+bias1;
+        matrix hidden=layer1.relu();
+        matrix layer2=hidden*weight2+bias2;
+        matrix output=layer2.softmax();
+        return output;
     }
 
-    cout << "概率总和：" << sum << endl;
+};
+int main()
+{
+    // 输入：[1, 2]
+    matrix x(1, 2);
+    x.set(0, 0, 1.0f);
+    x.set(0, 1, 2.0f);
+
+    // 第一层权重：单位矩阵
+    matrix w1(2, 2);
+    w1.set(0, 0, 1.0f);
+    w1.set(0, 1, 0.0f);
+    w1.set(1, 0, 0.0f);
+    w1.set(1, 1, 1.0f);
+
+    // 第一层偏置：[-2, 1]
+    matrix b1(1, 2);
+    b1.set(0, 0, -2.0f);
+    b1.set(0, 1, 1.0f);
+
+    // 第二层权重：单位矩阵
+    matrix w2(2, 2);
+    w2.set(0, 0, 1.0f);
+    w2.set(0, 1, 0.0f);
+    w2.set(1, 0, 0.0f);
+    w2.set(1, 1, 1.0f);
+
+    // 第二层偏置：[0, 0]
+    matrix b2(1, 2);
+
+    model testModel(w1, b1, w2, b2);
+    matrix output = testModel.forward(x);
+
+    cout << "模型输出：" << endl;
+    output.print();
 
     return 0;
 }
