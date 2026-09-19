@@ -68,7 +68,7 @@ public:
     matrix operator*(const matrix& other)const{
      if (cols!=other.rows)
      {
-        throw invalid_argument("Matrices can not be mutiplied");
+        throw invalid_argument("Matrices cannot be mutiplied");
      }
      else{
         matrix result(rows,other.cols);
@@ -107,7 +107,7 @@ public:
                     result.data[r][c]=data[r][c];
                 }
                 else
-                    result.data[r][c]=0;
+                    result.data[r][c]=0.0f;
                 
             }
             
@@ -162,7 +162,6 @@ public:
 
     }
     matrix forward(const matrix& x)const{
-        /*return (((x*weight1+bias1).relu())*weight2+bias2).softmax();*/
         matrix layer1=x*weight1+bias1;
         matrix hidden=layer1.relu();
         matrix layer2=hidden*weight2+bias2;
