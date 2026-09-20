@@ -3,7 +3,10 @@
 #include<stdexcept>
 #include<cmath>
 #include<fstream>
+#include"nlohmann/json.hpp"
+#include<string>
 using namespace std;
+using json = nlohmann::json;
 class matrix {
 private:
     int rows;
@@ -175,7 +178,6 @@ matrix readmatrix(const string& filepath,int rows,int cols){
         ifstream file(filepath,ios::binary);
         if (file.is_open())
         {
-            cout<<"打开成功"<<endl;
         }
         else{
             throw runtime_error("文件打开失败");
@@ -199,23 +201,35 @@ matrix readmatrix(const string& filepath,int rows,int cols){
         
     }
 int main()
-{
+{ 
     try
     {
-        matrix bias1 = readmatrix("../mnist-fc/fc1.bias", 1, 500);
-        matrix bias2 = readmatrix("../mnist-fc/fc2.bias", 1, 10);
-        matrix weight1 = readmatrix("../mnist-fc/fc1.weight", 784, 500);
-        matrix weight2 =readmatrix("../mnist-fc/fc2.weight", 500, 10);
-        cout<<"bias1:"<<endl<<bias1.getrows()<<" "<<bias1.getcols()<<endl;
+        ifstream metafile("../mnist-fc/meta.json");
+        if (!metafile.is_open())
+        {
+            throw runtime_error("JSON文件打开失败");
+        }
+            cout<<"文件打开成功"<<endl;
+        json metadata;
+        metafile>>metadata;
+        int weight1rows=metadata["fc1.weight"][0].get<int>();
+        int weight1cols=metadata["fc1.weight"][1].get<int>();
+        int weight2rows=metadata["fc2.weight"][0].get<int>();
+        int weight2cols=metadata["fc2.weight"][1].get<int>();
+        int bias1rows=metadata["fc1.bias"][0].get<int>();
+        int bias1cols=metadata["fc1.bias"][1].get<int>();
+        int bias2rows=metadata["fc2.bias"][0].get<int>();
+        int bias2cols=metadata["fc2.bias"][1].get<int>();
+        matrix bias1 = readmatrix("../mnist-fc/fc1.bias", bias1rows, bias1cols);
+        matrix bias2 = readmatrix("../mnist-fc/fc2.bias", bias2rows, bias2cols);
+        matrix weight1 = readmatrix("../mnist-fc/fc1.weight", weight1rows, weight1cols);
+        matrix weight2 =readmatrix("../mnist-fc/fc2.weight", weight2rows, weight2cols);
+        /*cout<<"bias1:"<<endl<<bias1.getrows()<<" "<<bias1.getcols()<<endl;
         cout<<"bias2:"<<endl<<bias2.getrows()<<" "<<bias2.getcols()<<endl;
         cout<<"weight1:"<<endl<<weight1.getrows()<<" "<<weight1.getcols()<<endl;
-        cout<<"weight2:"<<endl<<weight2.getrows()<<" "<<weight2.getcols()<<endl;
+        cout<<"weight2:"<<endl<<weight2.getrows()<<" "<<weight2.getcols()<<endl;*/
         model f (weight1,bias1,weight2,bias2);
         cout<<"模型加载成功"<<endl;
-        
-
-
-
     }
     catch (const exception& e)
     {
