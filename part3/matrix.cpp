@@ -155,26 +155,69 @@ public:
         return result;   
     }
 };
+class model_base{
+public:
+    virtual matrix<double> doforward (const matrix<double>& input) const =0;
+    virtual matrix<float> doforward (const matrix<float>& input) const =0;
+    virtual ~model_base()=default;
+};
 template<typename T>
-class model{
+class model:public model_base{
 private:
     matrix<T> weight1;
     matrix<T> bias1;
     matrix<T> weight2;
     matrix<T> bias2;
 public:
+    matrix<float> doforward(const matrix<float>& input)const override{
+        if (float==T)
+        {
+            return forward(input);
+        }
+        else{
+            matrix<double> temp(input.getrows(),input.getcols());
+            for (int r = 0; r < input.getrows(); r++)
+            {
+                for (int c = 0; c < input.getcols(); c++)
+                {
+                    temp.set(r,c,input.get(r,c));
+                }
+                
+            }
+            
+            matrix<double> finaloutput (forward(temp));
+            matrix<float> output (finaloutput.getrows(),finaloutput.getcols);
+            for (int r = 0; r < finaloutput.getrows(); r++)
+            {
+                for (int c = 0; c < finaloutput.getcols(); c++)
+                {
+                    output.set(r,c,finaloutput.get(r,c));
+                }
+                
+            }
+            
+        }
+        
+    }
+    matrix<double> doforward(const matrix<double>& input)const override{
+        if ()
+        {
+            /* code */
+        }
+        
+    }
     model(const matrix<T>& w1,const matrix<T>& b1,const matrix<T>& w2,const matrix<T>& b2)
     :weight1(w1),bias1(b1),weight2(w2),bias2(b2){
 
-    }
-    matrix<T> forward(const matrix<T>& x)const{
-        matrix<T> layer1=x*weight1+bias1;
-        matrix<T> hidden=layer1.relu();
-        matrix<T> layer2=hidden*weight2+bias2;
-        matrix<T> output=layer2.softmax();
-        return output;
-    }
-    
+    }    
+    matrix<T> forward(const matrix<T>& input)const{
+            matrix<T> layer1=input*weight1+bias1;
+            matrix<T> hidden=layer1.relu();
+            matrix<T> layer2=hidden*weight2+bias2;
+            matrix<T> output=layer2.softmax();
+            return output;
+            }
+
 };
 template<typename T>
 matrix<T> readmatrix(const string& filepath,int rows,int cols){
@@ -207,7 +250,7 @@ int main()
 { 
     try
     {
-        ifstream metafile("../mnist-fc/meta.json");
+        ifstream metafile("../mnist-fc-plus/meta.json");
         if (!metafile.is_open())
         {
             throw runtime_error("JSON文件打开失败");
@@ -223,24 +266,24 @@ int main()
         int bias1cols=metadata["fc1.bias"][1].get<int>();
         int bias2rows=metadata["fc2.bias"][0].get<int>();
         int bias2cols=metadata["fc2.bias"][1].get<int>();
-        matrix<float> bias1 = readmatrix<float>("../mnist-fc/fc1.bias", bias1rows, bias1cols);
-        matrix<float> bias2 = readmatrix<float>("../mnist-fc/fc2.bias", bias2rows, bias2cols);
-        matrix<float> weight1 = readmatrix<float>("../mnist-fc/fc1.weight", weight1rows, weight1cols);
-        matrix<float> weight2 =readmatrix<float>("../mnist-fc/fc2.weight", weight2rows, weight2cols);
+        matrix<double> bias1 = readmatrix<double>("../mnist-fc-plus/fc1.bias", bias1rows, bias1cols);
+        matrix<double> bias2 = readmatrix<double>("../mnist-fc-plus/fc2.bias", bias2rows, bias2cols);
+        matrix<double> weight1 = readmatrix<double>("../mnist-fc-plus/fc1.weight", weight1rows, weight1cols);
+        matrix<double> weight2 =readmatrix<double>("../mnist-fc-plus/fc2.weight", weight2rows, weight2cols);
         /*cout<<"bias1:"<<endl<<bias1.getrows()<<" "<<bias1.getcols()<<endl;
         cout<<"bias2:"<<endl<<bias2.getrows()<<" "<<bias2.getcols()<<endl;
         cout<<"weight1:"<<endl<<weight1.getrows()<<" "<<weight1.getcols()<<endl;
         cout<<"weight2:"<<endl<<weight2.getrows()<<" "<<weight2.getcols()<<endl;*/
-        model<float> f (weight1,bias1,weight2,bias2);
+        model<double> f (weight1,bias1,weight2,bias2);
         cout<<"模型加载成功"<<endl;
-        matrix<float> input(1, weight1rows);  // 默认全部为 0
-matrix<float> output = f.forward(input);
+        matrix<double> input(1, weight1rows);  // 默认全部为 0
+matrix<double> output = f.forward(input);
 
 cout << "输出尺寸："
      << output.getrows() << " × "
      << output.getcols() << endl;
 
-float probabilitySum = 0.0f;
+double probabilitySum = 0.0;
 
 for (int c = 0; c < output.getcols(); c++)
 {
