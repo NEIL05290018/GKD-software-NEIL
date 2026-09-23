@@ -5,6 +5,7 @@
 #include<fstream>
 #include"nlohmann/json.hpp"
 #include<string>
+#include<type_traits>
 using namespace std;
 using json = nlohmann::json;
 template<typename T>
@@ -170,7 +171,7 @@ private:
     matrix<T> bias2;
 public:
     matrix<float> doforward(const matrix<float>& input)const override{
-        if (float==T)
+        if constexpr(std::is_same_v<T,float>)
         {
             return forward(input);
         }
@@ -185,8 +186,9 @@ public:
                 
             }
             
+            
             matrix<double> finaloutput (forward(temp));
-            matrix<float> output (finaloutput.getrows(),finaloutput.getcols);
+            matrix<float> output (finaloutput.getrows(),finaloutput.getcols());
             for (int r = 0; r < finaloutput.getrows(); r++)
             {
                 for (int c = 0; c < finaloutput.getcols(); c++)
@@ -195,14 +197,36 @@ public:
                 }
                 
             }
-            
+            return output;
         }
         
     }
     matrix<double> doforward(const matrix<double>& input)const override{
-        if ()
+        if constexpr(std::is_same_v<T,double>)
         {
-            /* code */
+            return forward(input);
+        }
+        else{
+            matrix<float> temp(input.getrows(),input.getcols());
+            for (int r = 0; r < input.getrows(); r++)
+            {
+                for (int c = 0; c < input.getcols(); c++)
+                {
+                    temp.set(r,c,input.get(r,c));
+                }
+                
+            }
+            matrix<float> finaltemp(forward(temp));
+            matrix<double> output (finaltemp.getrows(),finaltemp.getcols());
+            for (int r = 0; r < finaltemp.getrows(); r++)
+            {
+                for (int c = 0; c < finaltemp.getcols(); c++)
+                {
+                    output.set(r,c,finaltemp.get(r,c));
+                }
+                
+            }
+            return output; 
         }
         
     }
@@ -246,16 +270,13 @@ matrix<T> readmatrix(const string& filepath,int rows,int cols){
         return x;
         
     }
-int main()
-{ 
-    try
-    {
-        ifstream metafile("../mnist-fc-plus/meta.json");
+    model_base* creatmodel(const string& folder){
+        ifstream metafile (folder+"meta.json");
         if (!metafile.is_open())
         {
-            throw runtime_error("JSON文件打开失败");
+            throw runtime_error("Json文件打开失败");
         }
-            cout<<"文件打开成功"<<endl;
+        cout<<"文件打开成功"<<endl;
         json metadata;
         metafile>>metadata;
         int weight1rows=metadata["fc1.weight"][0].get<int>();
@@ -266,22 +287,40 @@ int main()
         int bias1cols=metadata["fc1.bias"][1].get<int>();
         int bias2rows=metadata["fc2.bias"][0].get<int>();
         int bias2cols=metadata["fc2.bias"][1].get<int>();
-        matrix<double> bias1 = readmatrix<double>("../mnist-fc-plus/fc1.bias", bias1rows, bias1cols);
-        matrix<double> bias2 = readmatrix<double>("../mnist-fc-plus/fc2.bias", bias2rows, bias2cols);
-        matrix<double> weight1 = readmatrix<double>("../mnist-fc-plus/fc1.weight", weight1rows, weight1cols);
-        matrix<double> weight2 =readmatrix<double>("../mnist-fc-plus/fc2.weight", weight2rows, weight2cols);
-        /*cout<<"bias1:"<<endl<<bias1.getrows()<<" "<<bias1.getcols()<<endl;
-        cout<<"bias2:"<<endl<<bias2.getrows()<<" "<<bias2.getcols()<<endl;
-        cout<<"weight1:"<<endl<<weight1.getrows()<<" "<<weight1.getcols()<<endl;
-        cout<<"weight2:"<<endl<<weight2.getrows()<<" "<<weight2.getcols()<<endl;*/
-        model<double> f (weight1,bias1,weight2,bias2);
-        cout<<"模型加载成功"<<endl;
-        matrix<double> input(1, weight1rows);  // 默认全部为 0
-matrix<double> output = f.forward(input);
-
-cout << "输出尺寸："
-     << output.getrows() << " × "
-     << output.getcols() << endl;
+        string type =metadata["type"].get<string>();
+        if (type=="fp32")
+        {
+            matrix<float> bias1 = readmatrix<float>(folder+"fc1.bias", bias1rows, bias1cols);
+            matrix<float> bias2 = readmatrix<float>(folder+"fc2.bias", bias2rows, bias2cols);
+            matrix<float> weight1 =readmatrix<float>(folder+"fc1.weight", weight1rows, weight1cols);
+            matrix<float> weight2 =readmatrix<float>(folder+"fc2.weight", weight2rows, weight2cols);
+            return new model<float>(weight1,bias1,weight2,bias2);
+        }
+        else if(type=="fp64"){
+            matrix<double> bias1 = readmatrix<double>(folder+"fc1.bias", bias1rows, bias1cols);
+            matrix<double> bias2 = readmatrix<double>(folder+"fc2.bias", bias2rows, bias2cols);
+            matrix<double> weight1 =readmatrix<double>(folder+"fc1.weight", weight1rows, weight1cols);
+            matrix<double> weight2 =readmatrix<double>(folder+"fc2.weight", weight2rows, weight2cols);
+            return new model<double>(weight1,bias1,weight2,bias2);
+        }
+        else{
+            throw runtime_error("未知模型类型");
+        }
+        
+    }
+int main(int argc,char* argv[])
+{   string folder="../mnist-fc/";
+    if (argc>1 && string(argv[1])=="plus")
+    {
+        folder="../mnist-fc-plus/";
+    }
+    
+    model_base* f=nullptr;
+    try
+    {
+        f =creatmodel(folder);
+        matrix<float> input(1, 784); 
+        matrix<float> output=f->doforward(input);
 
 double probabilitySum = 0.0;
 
@@ -298,6 +337,6 @@ cout << "概率总和：" << probabilitySum << endl;
     {
         cout << e.what() << endl;
     }
-
+    delete f;
     return 0;
 }
