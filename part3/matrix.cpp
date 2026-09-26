@@ -6,6 +6,7 @@
 #include"nlohmann/json.hpp"
 #include<string>
 #include<type_traits>
+#include<chrono>
 using namespace std;
 using json = nlohmann::json;
 template<typename T>
@@ -320,7 +321,9 @@ int main(int argc,char* argv[])
     {
         f =creatmodel(folder);
         matrix<float> input(1, 784); 
+        auto start=chrono::steady_clock::now();
         matrix<float> output=f->doforward(input);
+        auto end=chrono::steady_clock::now();
 
 double probabilitySum = 0.0;
 
@@ -331,7 +334,9 @@ for (int c = 0; c < output.getcols(); c++)
 }
 
 cout << endl;
-cout << "Sum of probabilities：" << probabilitySum << endl;
+cout << "Sum of probabilities:" << probabilitySum << endl;
+chrono::duration<double,milli> times=end-start;
+cout<<"forward:"<<times.count()<<endl;
     }
     catch (const exception& e)
     {
