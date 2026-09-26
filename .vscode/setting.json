@@ -1,8 +1,0 @@
-{
-    "files.encoding": "utf8",
-    "code-runner.runInTerminal": true,
-
-    "code-runner.executorMap": {
-        "cpp": "chcp 65001 > $null; cd $dir; g++ -std=c++17 -finput-charset=UTF-8 -fexec-charset=UTF-8 $fileName -o $fileNameWithoutExt.exe; if ($?) { .\\$fileNameWithoutExt.exe }"
-    }
-}
