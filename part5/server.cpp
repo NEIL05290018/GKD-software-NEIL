@@ -100,7 +100,7 @@ int main(){
     serveraddr.sin_family=AF_INET;
     serveraddr.sin_addr.s_addr=INADDR_ANY;
     serveraddr.sin_port=htons(8888);
-    int bindresult =bind(serversocket,reinterpret_cast<sockaddr*>(&serveraddr),sizeof(serveraddr));
+    int bindresult =::bind(serversocket,reinterpret_cast<sockaddr*>(&serveraddr),sizeof(serveraddr));
     //将sockaddr_in*转换为sockaddr*类型，为了统一接口，便于ipv4和ipv6等结构的统一调用
     if (bindresult==SOCKET_ERROR)
     {
