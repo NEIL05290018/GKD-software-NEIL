@@ -56,12 +56,14 @@ public:
         
     }
     matrix operator+(const matrix& other)const{
-        if (rows!=other.rows||cols!=other.cols)
+        if ((rows!=other.rows&&other.rows!=1)||cols!=other.cols)
         {
             throw invalid_argument("matrx dimentions must match");
         }
         else{
         matrix result(rows,cols);
+        if (rows==other.rows)
+        {
         for (int r = 0; r< rows; r++)
         {
             for (int c = 0; c < cols; c++)
@@ -69,9 +71,20 @@ public:
                 result.data[r][c]=data[r][c]+other.data[r][c];
             }
             
+        }   
         }
-        
-        return result;}
+        else if(other.rows==1){
+        for (int r = 0; r< rows; r++)
+        {
+            for (int c = 0; c < cols; c++)
+            {
+                result.data[r][c]=data[r][c]+other.data[0][c];
+            }
+            
+        }
+        }
+        return result;
+    }
     }
     matrix operator*(const matrix& other)const{
      if (cols!=other.rows)
@@ -93,13 +106,15 @@ public:
         auto calculate =[&](int begin,int end){
             for (int r = 0; r < rows; r++)
             {   
-                for (int c =begin; c < end; c++)
-                {
                     for (int k = 0; k < cols; k++)
                     {
-                    result.data[r][c]+=data[r][k]*other.data[k][c];
+                        for (int c = begin; c < end; c++)
+                        {
+                            result.data[r][c]+=data[r][k]*other.data[k][c];
+                        }
+                        
                     }
-                }
+                
                 
             }
             
@@ -149,11 +164,11 @@ public:
     }
     matrix softmax()const{
         matrix result (rows,cols);
-        T sum=T{};
-        T maxvalue =data[0][0];
         for (int r = 0; r < rows; r++)
         {
-            for (int c = 0; c < cols; c++)
+        T sum=T{};
+        T maxvalue =data[r][0];
+        for (int c = 0; c < cols; c++)
             {
                 if (data[r][c]>maxvalue)
                 {
@@ -162,25 +177,16 @@ public:
                 }
                 
             }
-            
-        }
-        for (int r = 0; r < rows; r++)
-        {
             for (int c = 0; c < cols; c++)
             {
                 sum+=exp(data[r][c]-maxvalue);
             }
-            
-        }
-        for (int r = 0; r < rows; r++)
-        {
             for (int c = 0; c < cols; c++)
             {
                 result.data[r][c]=exp(data[r][c]-maxvalue)/sum;
             }
-            
-        }
-        return result;   
+    }   
+    return result;
     }
 };
 class model_base{
@@ -346,24 +352,24 @@ int main(int argc,char* argv[])
     try
     {
         f =creatmodel(folder);
-        matrix<float> input(1, 784); 
+        matrix<float> input(200, 784); 
         auto start=chrono::steady_clock::now();
         matrix<float> output=f->doforward(input);
         auto end=chrono::steady_clock::now();
 
-double probabilitySum = 0.0;
+        /*double probabilitySum = 0.0;
 
-for (int c = 0; c < output.getcols(); c++)
-{
-    cout << output.get(0, c) << " ";
-    probabilitySum += output.get(0, c);
-}
+        for (int c = 0; c < output.getcols(); c++)
+        {
+        cout << output.get(0, c) << " ";
+        probabilitySum += output.get(0, c);
+        }
 
-cout << endl;
-cout << "Sum of probabilities:" << probabilitySum << endl;
-chrono::duration<double,milli> times=end-start;
-cout<<"forword time:"<<times.count()<<"ms"<<endl;
-cout<<"hardware concurrency:"<<thread::hardware_concurrency<<endl;
+        cout << endl;
+        cout << "Sum of probabilities:" << probabilitySum << endl;*/
+        chrono::duration<double,milli> times=end-start;
+        cout<<"forword time:"<<times.count()<<"ms"<<endl;
+        cout<<"hardware concurrency:"<<thread::hardware_concurrency()<<endl;
     }
     catch (const exception& e)
     {

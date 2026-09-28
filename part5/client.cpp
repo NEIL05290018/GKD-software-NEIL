@@ -105,7 +105,7 @@ int main(){
     else{
         cout<<"conneted to server"<<endl;
     }
-    matrix<float>m(1,784);
+    matrix<float>m(10,784);
     sendmatrix(clientsocket,m);
     matrix<float> output=recvmatrix(clientsocket);
     output.print();
