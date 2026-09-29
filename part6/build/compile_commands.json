@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/part6/build",
+  "command": "C:\\PROGRA~1\\mingw64\\bin\\g++.exe  @CMakeFiles\\part6.dir\\includes_CXX.rsp -std=gnu++17 -o CMakeFiles\\part6.dir\\main.cpp.obj -c C:\\Users\\admin\\Desktop\\code\\GKD\\GKD-software-NEIL\\part6\\main.cpp",
+  "file": "C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/part6/main.cpp",
+  "output": "CMakeFiles/part6.dir/main.cpp.obj"
+}
+]
