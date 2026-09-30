@@ -128,6 +128,19 @@ part6/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/build
 .PHONY : part6/fast
 
+#=============================================================================
+# Target rules for targets named server
+
+# Build rule for target.
+server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 server
+.PHONY : server
+
+# fast build rule for target.
+server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/build
+.PHONY : server/fast
+
 main.obj: main.cpp.obj
 .PHONY : main.obj
 
@@ -152,6 +165,57 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+matrix.obj: matrix.cpp.obj
+.PHONY : matrix.obj
+
+# target to build an object file
+matrix.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/matrix.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/matrix.cpp.obj
+.PHONY : matrix.cpp.obj
+
+matrix.i: matrix.cpp.i
+.PHONY : matrix.i
+
+# target to preprocess a source file
+matrix.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/matrix.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/matrix.cpp.i
+.PHONY : matrix.cpp.i
+
+matrix.s: matrix.cpp.s
+.PHONY : matrix.s
+
+# target to generate assembly for a file
+matrix.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/matrix.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/matrix.cpp.s
+.PHONY : matrix.cpp.s
+
+server.obj: server.cpp.obj
+.PHONY : server.obj
+
+# target to build an object file
+server.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/server.cpp.obj
+.PHONY : server.cpp.obj
+
+server.i: server.cpp.i
+.PHONY : server.i
+
+# target to preprocess a source file
+server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/server.cpp.i
+.PHONY : server.cpp.i
+
+server.s: server.cpp.s
+.PHONY : server.s
+
+# target to generate assembly for a file
+server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/server.cpp.s
+.PHONY : server.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -161,9 +225,16 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... part6
+	@echo ... server
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... matrix.obj
+	@echo ... matrix.i
+	@echo ... matrix.s
+	@echo ... server.obj
+	@echo ... server.i
+	@echo ... server.s
 .PHONY : help
 
 

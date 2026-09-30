@@ -14,6 +14,19 @@ find_package(OpenCV REQUIRED)
 
 add_executable(part6
     main.cpp
+    matrix.cpp
 )
 
-target_link_libraries(part6 PRIVATE ${OpenCV_LIBS})
+add_executable(server
+    server.cpp
+    matrix.cpp
+)
+
+target_link_libraries(part6 PRIVATE
+    ${OpenCV_LIBS}
+    ws2_32
+)
+
+target_link_libraries(server PRIVATE
+    ws2_32
+)

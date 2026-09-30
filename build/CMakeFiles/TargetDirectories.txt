@@ -1,0 +1,4 @@
+C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/build/CMakeFiles/part6.dir
+C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/build/CMakeFiles/server.dir
+C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/build/CMakeFiles/edit_cache.dir
+C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/build/CMakeFiles/rebuild_cache.dir

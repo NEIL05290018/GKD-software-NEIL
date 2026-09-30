@@ -91,6 +91,7 @@ int main(){
      WSACleanup();
      return 1;   
     }
+    
     sockaddr_in serveraddr;
     serveraddr.sin_family=AF_INET;
     serveraddr.sin_addr.s_addr=inet_addr("127.0.0.1");
@@ -108,6 +109,7 @@ int main(){
     matrix<float>m(10,784);
     sendmatrix(clientsocket,m);
     matrix<float> output=recvmatrix(clientsocket);
+    cout<<output.getcols()<<output.getrows()<<endl;
     output.print();
     closesocket(clientsocket);
     WSACleanup();

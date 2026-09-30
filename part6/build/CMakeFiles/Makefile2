@@ -63,10 +63,12 @@ CMAKE_BINARY_DIR = C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build
 
 # The main recursive "all" target.
 all: CMakeFiles/part6.dir/all
+all: CMakeFiles/server.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
 codegen: CMakeFiles/part6.dir/codegen
+codegen: CMakeFiles/server.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -75,6 +77,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/part6.dir/clean
+clean: CMakeFiles/server.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -84,12 +87,12 @@ clean: CMakeFiles/part6.dir/clean
 CMakeFiles/part6.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles --progress-num=1,2 "Built target part6"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles --progress-num=1,2,3 "Built target part6"
 .PHONY : CMakeFiles/part6.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/part6.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/part6.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles 0
 .PHONY : CMakeFiles/part6.dir/rule
@@ -101,13 +104,45 @@ part6: CMakeFiles/part6.dir/rule
 # codegen rule for target.
 CMakeFiles/part6.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles --progress-num=1,2 "Finished codegen for target part6"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles --progress-num=1,2,3 "Finished codegen for target part6"
 .PHONY : CMakeFiles/part6.dir/codegen
 
 # clean rule for target.
 CMakeFiles/part6.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/clean
 .PHONY : CMakeFiles/part6.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/server.dir
+
+# All Build rule for target.
+CMakeFiles/server.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles --progress-num=4,5,6 "Built target server"
+.PHONY : CMakeFiles/server.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/server.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/server.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles 0
+.PHONY : CMakeFiles/server.dir/rule
+
+# Convenience name for target.
+server: CMakeFiles/server.dir/rule
+.PHONY : server
+
+# codegen rule for target.
+CMakeFiles/server.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\admin\Desktop\code\GKD\GKD-software-NEIL\part6\build\CMakeFiles --progress-num=4,5,6 "Finished codegen for target server"
+.PHONY : CMakeFiles/server.dir/codegen
+
+# clean rule for target.
+CMakeFiles/server.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/clean
+.PHONY : CMakeFiles/server.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

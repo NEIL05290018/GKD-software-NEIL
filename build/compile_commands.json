@@ -1,0 +1,26 @@
+[
+{
+  "directory": "C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/build",
+  "command": "\"C:\\Program Files\\mingw64\\bin\\g++.exe\"  @CMakeFiles\\part6.dir\\includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\part6.dir\\main.cpp.obj -c C:\\Users\\admin\\Desktop\\code\\GKD\\GKD-software-NEIL\\part6\\main.cpp",
+  "file": "C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/part6/main.cpp",
+  "output": "CMakeFiles/part6.dir/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/build",
+  "command": "\"C:\\Program Files\\mingw64\\bin\\g++.exe\"  @CMakeFiles\\part6.dir\\includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\part6.dir\\matrix.cpp.obj -c C:\\Users\\admin\\Desktop\\code\\GKD\\GKD-software-NEIL\\part6\\matrix.cpp",
+  "file": "C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/part6/matrix.cpp",
+  "output": "CMakeFiles/part6.dir/matrix.cpp.obj"
+},
+{
+  "directory": "C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/build",
+  "command": "\"C:\\Program Files\\mingw64\\bin\\g++.exe\"   -g -std=gnu++17 -o CMakeFiles\\server.dir\\server.cpp.obj -c C:\\Users\\admin\\Desktop\\code\\GKD\\GKD-software-NEIL\\part6\\server.cpp",
+  "file": "C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/part6/server.cpp",
+  "output": "CMakeFiles/server.dir/server.cpp.obj"
+},
+{
+  "directory": "C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/build",
+  "command": "\"C:\\Program Files\\mingw64\\bin\\g++.exe\"   -g -std=gnu++17 -o CMakeFiles\\server.dir\\matrix.cpp.obj -c C:\\Users\\admin\\Desktop\\code\\GKD\\GKD-software-NEIL\\part6\\matrix.cpp",
+  "file": "C:/Users/admin/Desktop/code/GKD/GKD-software-NEIL/part6/matrix.cpp",
+  "output": "CMakeFiles/server.dir/matrix.cpp.obj"
+}
+]
