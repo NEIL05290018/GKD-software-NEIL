@@ -116,17 +116,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named part6
+# Target rules for targets named main
 
 # Build rule for target.
-part6: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 part6
-.PHONY : part6
+main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 main
+.PHONY : main
 
 # fast build rule for target.
-part6/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/build
-.PHONY : part6/fast
+main/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/build
+.PHONY : main/fast
 
 #=============================================================================
 # Target rules for targets named server
@@ -141,12 +141,36 @@ server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/build
 .PHONY : server/fast
 
+gui.obj: gui.cpp.obj
+.PHONY : gui.obj
+
+# target to build an object file
+gui.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/gui.cpp.obj
+.PHONY : gui.cpp.obj
+
+gui.i: gui.cpp.i
+.PHONY : gui.i
+
+# target to preprocess a source file
+gui.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/gui.cpp.i
+.PHONY : gui.cpp.i
+
+gui.s: gui.cpp.s
+.PHONY : gui.s
+
+# target to generate assembly for a file
+gui.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/gui.cpp.s
+.PHONY : gui.cpp.s
+
 main.obj: main.cpp.obj
 .PHONY : main.obj
 
 # target to build an object file
 main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/main.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/main.cpp.obj
 .PHONY : main.cpp.obj
 
 main.i: main.cpp.i
@@ -154,7 +178,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -162,7 +186,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 matrix.obj: matrix.cpp.obj
@@ -170,7 +194,7 @@ matrix.obj: matrix.cpp.obj
 
 # target to build an object file
 matrix.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/matrix.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/matrix.cpp.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/matrix.cpp.obj
 .PHONY : matrix.cpp.obj
 
@@ -179,7 +203,7 @@ matrix.i: matrix.cpp.i
 
 # target to preprocess a source file
 matrix.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/matrix.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/matrix.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/matrix.cpp.i
 .PHONY : matrix.cpp.i
 
@@ -188,7 +212,7 @@ matrix.s: matrix.cpp.s
 
 # target to generate assembly for a file
 matrix.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\part6.dir\build.make CMakeFiles/part6.dir/matrix.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/matrix.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\server.dir\build.make CMakeFiles/server.dir/matrix.cpp.s
 .PHONY : matrix.cpp.s
 
@@ -224,8 +248,11 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... part6
+	@echo ... main
 	@echo ... server
+	@echo ... gui.obj
+	@echo ... gui.i
+	@echo ... gui.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

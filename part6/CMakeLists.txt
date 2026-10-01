@@ -12,7 +12,8 @@ set(OpenCV_DIR
 
 find_package(OpenCV REQUIRED)
 
-add_executable(part6
+add_executable(main
+    gui.cpp
     main.cpp
     matrix.cpp
 )
@@ -22,7 +23,7 @@ add_executable(server
     matrix.cpp
 )
 
-target_link_libraries(part6 PRIVATE
+target_link_libraries(main PRIVATE
     ${OpenCV_LIBS}
     ws2_32
 )
