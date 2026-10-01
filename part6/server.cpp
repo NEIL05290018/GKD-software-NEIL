@@ -12,7 +12,6 @@ bool sendall(SOCKET s,const char* data,int totalbytes){
         int bytes=send(s,data+sent,totalbytes-sent,0);
         if (bytes==0)
         {
-            cout<<"connect closed"<<endl;
             return false;
         }
         else if (bytes<0)
@@ -32,7 +31,6 @@ bool recvall(SOCKET s,char* data,int totalbytes){
         int bytes =recv(s,data+received,totalbytes-received,0);
         if (bytes==0)
         {
-            cout<<"connect closed"<<endl;
             return false;
         }
         else if (bytes<0)
@@ -57,17 +55,29 @@ void sendmatrix(SOCKET s,const matrix<float>& m){
         }
         
     }
-    sendall(s,reinterpret_cast<const char*>(&rows),sizeof(rows));
-    sendall(s,reinterpret_cast<const char*>(&cols),sizeof(cols));
-    sendall(s,reinterpret_cast<const char*>(data.data()),rows*cols*sizeof(float));
+    if(!sendall(s,reinterpret_cast<const char*>(&rows),sizeof(rows))){
+        throw runtime_error("connect close");
+    }
+    if(!sendall(s,reinterpret_cast<const char*>(&cols),sizeof(cols))){
+        throw runtime_error("connect close");
+    }
+    if(!sendall(s,reinterpret_cast<const char*>(data.data()),rows*cols*sizeof(float))){
+        throw runtime_error("connect close");
+    }
 }
 matrix<float> recvmatrix(SOCKET s){
     int rows;
     int cols;
-    recvall(s,reinterpret_cast<char*>(&rows),sizeof(rows));
-    recvall(s,reinterpret_cast<char*>(&cols),sizeof(cols));
+    if(!recvall(s,reinterpret_cast<char*>(&rows),sizeof(rows))){
+        throw runtime_error("connect close");
+    }
+    if(!recvall(s,reinterpret_cast<char*>(&cols),sizeof(cols))){
+        throw runtime_error("connect close");
+    }
     vector<float>data(rows*cols);
-    recvall(s,reinterpret_cast<char*>(data.data()),rows*cols*sizeof(float));
+    if(!recvall(s,reinterpret_cast<char*>(data.data()),rows*cols*sizeof(float))){
+        throw runtime_error("connect close");
+    }
     matrix<float> m(rows,cols);
     for (int r = 0; r < rows; r++)
     {
@@ -128,9 +138,12 @@ int main(){
     model_base* f=nullptr;
     try{
     f=creatmodel("../mnist-fc/");
-    matrix<float> input =recvmatrix(clientsocket);
-    matrix<float> output=f->doforward(input);
-    sendmatrix(clientsocket,output);
+    while (true)
+    {
+        matrix<float> input =recvmatrix(clientsocket);
+        matrix<float> output=f->doforward(input);
+        sendmatrix(clientsocket,output);
+    }
     }
     catch(const exception& e){
         cout<<e.what()<<endl;
