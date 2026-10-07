@@ -21,7 +21,6 @@ bool sendall(SOCKET s,const char* data,int totalbytes){
         }
         sent+=bytes;
     }
-    cout<<"send has compelete"<<endl;
     return true;
 }
 bool recvall(SOCKET s,char* data,int totalbytes){

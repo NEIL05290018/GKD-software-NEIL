@@ -35,6 +35,7 @@ CMakeFiles/main.dir/gui.cpp.obj: C:/Users/admin/Desktop/code/GKD/GKD-software-NE
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/algorithm \
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/any \
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/array \
+  C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/atomic \
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward/auto_ptr.h \
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward/binders.h \
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/algorithmfwd.h \
@@ -524,6 +525,7 @@ CMakeFiles/main.dir/main.cpp.obj: C:/Users/admin/Desktop/code/GKD/GKD-software-N
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/algorithm \
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/any \
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/array \
+  C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/atomic \
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward/auto_ptr.h \
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward/binders.h \
   C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/algorithmfwd.h \
@@ -1316,6 +1318,8 @@ C:/Program\ Files/mingw64/x86_64-w64-mingw32/include/sec_api/stralign_s.h:
 C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/avx512vbmi2intrin.h:
 
 C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/bits/char_traits.h:
+
+C:/Program\ Files/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/atomic:
 
 C:/Program\ Files/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h:
 

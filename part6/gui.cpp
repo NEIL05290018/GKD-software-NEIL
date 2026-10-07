@@ -16,7 +16,6 @@ bool sendall(SOCKET s,const char* data,int totalbytes){
         }
         sent+=bytes;
     }
-    cout<<"send has compelete"<<endl;
     return true;
 }
 bool recvall(SOCKET s,char* data,int totalbytes){
@@ -104,6 +103,11 @@ matrix<float> preprocess(const cv::Mat& image){
 }
     void drawapp::onmouse(int event,int x,int y,int flags, void*userdata){
         drawapp* app=static_cast<drawapp*>(userdata);  
+        if (x < 0 || x >= 560 || y < 0 || y >= 560)
+        {
+            app->drawing = false;
+            return;
+        }
         if(event==cv::EVENT_LBUTTONDOWN){
             app->drawing=true;
             app->lastpoint=cv::Point(x,y);
@@ -118,11 +122,11 @@ matrix<float> preprocess(const cv::Mat& image){
             app->drawing=false;
         }
     }
-    drawapp::drawapp(const SOCKET& c):canvas(560,560,CV_8UC1,cv::Scalar(255)),display(560,560,CV_8UC1,cv::Scalar(255)),drawing(false),clientsocket(c){
+    drawapp::drawapp(const SOCKET& c):canvas(560,560,CV_8UC1,cv::Scalar(255)),drawing(false),clientsocket(c){
         
     }
     void drawapp::makedisplay(){
-            display = cv::Mat(560, 860, CV_8UC1, cv::Scalar(255));
+            display = cv::Mat(560, 860, CV_8UC3, cv::Scalar(255,255,255));
             canvasmutex.lock();
             cv::Mat displaycanvas =canvas.clone();
             canvasmutex.unlock();
@@ -130,18 +134,23 @@ matrix<float> preprocess(const cv::Mat& image){
             probmutex.lock();
             displayprobability=probability;
             probmutex.unlock();
+            cv::Mat displaycanvasBGR;
+            cv::cvtColor(
+            displaycanvas,
+            displaycanvasBGR,
+            cv::COLOR_GRAY2BGR);
             cv::Mat left=display(cv::Rect(0,0,560,560));
-            displaycanvas.copyTo(left);
-            cv::rectangle(display,cv::Point(580,0),cv::Point(580+250*displayprobability[0],30),cv::Scalar(0),cv::FILLED);
-            cv::rectangle(display,cv::Point(580,40),cv::Point(580+250*displayprobability[1],70),cv::Scalar(0),cv::FILLED);
-            cv::rectangle(display,cv::Point(580,80),cv::Point(580+250*displayprobability[2],110),cv::Scalar(0),cv::FILLED);
-            cv::rectangle(display,cv::Point(580,120),cv::Point(580+250*displayprobability[3],150),cv::Scalar(0),cv::FILLED);
-            cv::rectangle(display,cv::Point(580,160),cv::Point(580+250*displayprobability[4],190),cv::Scalar(0),cv::FILLED);
-            cv::rectangle(display,cv::Point(580,200),cv::Point(580+250*displayprobability[5],230),cv::Scalar(0),cv::FILLED);
-            cv::rectangle(display,cv::Point(580,240),cv::Point(580+250*displayprobability[6],270),cv::Scalar(0),cv::FILLED);
-            cv::rectangle(display,cv::Point(580,280),cv::Point(580+250*displayprobability[7],310),cv::Scalar(0),cv::FILLED);
-            cv::rectangle(display,cv::Point(580,320),cv::Point(580+250*displayprobability[8],350),cv::Scalar(0),cv::FILLED);
-            cv::rectangle(display,cv::Point(580,360),cv::Point(580+250*displayprobability[9],390),cv::Scalar(0),cv::FILLED);
+            displaycanvasBGR.copyTo(left);
+            cv::rectangle(display,cv::Point(580,0),cv::Point(580+250*displayprobability[0],30),cv::Scalar(0,255,0),cv::FILLED);
+            cv::rectangle(display,cv::Point(580,40),cv::Point(580+250*displayprobability[1],70),cv::Scalar(0,255,0),cv::FILLED);
+            cv::rectangle(display,cv::Point(580,80),cv::Point(580+250*displayprobability[2],110),cv::Scalar(0,255,0),cv::FILLED);
+            cv::rectangle(display,cv::Point(580,120),cv::Point(580+250*displayprobability[3],150),cv::Scalar(0,255,0),cv::FILLED);
+            cv::rectangle(display,cv::Point(580,160),cv::Point(580+250*displayprobability[4],190),cv::Scalar(0,255,0),cv::FILLED);
+            cv::rectangle(display,cv::Point(580,200),cv::Point(580+250*displayprobability[5],230),cv::Scalar(0,255,0),cv::FILLED);
+            cv::rectangle(display,cv::Point(580,240),cv::Point(580+250*displayprobability[6],270),cv::Scalar(0,255,0),cv::FILLED);
+            cv::rectangle(display,cv::Point(580,280),cv::Point(580+250*displayprobability[7],310),cv::Scalar(0,255,0),cv::FILLED);
+            cv::rectangle(display,cv::Point(580,320),cv::Point(580+250*displayprobability[8],350),cv::Scalar(0,255,0),cv::FILLED);
+            cv::rectangle(display,cv::Point(580,360),cv::Point(580+250*displayprobability[9],390),cv::Scalar(0,255,0),cv::FILLED);
             cv::putText(display,to_string(0),cv::Point(570,15),cv::FONT_HERSHEY_SIMPLEX,0.6,cv::Scalar(0),1);
             cv::putText(display,to_string(1),cv::Point(570,55),cv::FONT_HERSHEY_SIMPLEX,0.6,cv::Scalar(0),1);
             cv::putText(display,to_string(2),cv::Point(570,95),cv::FONT_HERSHEY_SIMPLEX,0.6,cv::Scalar(0),1);
