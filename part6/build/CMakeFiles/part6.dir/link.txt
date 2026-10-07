@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\part6.dir/objects.a
-C:\PROGRA~1\mingw64\bin\ar.exe qc CMakeFiles\part6.dir/objects.a @CMakeFiles\part6.dir\objects1.rsp
-C:\PROGRA~1\mingw64\bin\g++.exe -Wl,--whole-archive CMakeFiles\part6.dir/objects.a -Wl,--no-whole-archive -o part6.exe -Wl,--out-implib,libpart6.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\part6.dir\linkLibs.rsp
